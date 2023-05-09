@@ -22,7 +22,7 @@ const UpdateCoffee = () => {
 
 
         // add to the server
-        fetch(`http://localhost:5000/coffee${_id}`, {
+        fetch(`http://localhost:5000/coffee/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -32,7 +32,7 @@ const UpdateCoffee = () => {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.acknowledged === true) {
+                if (data.modifiedCount> 0) {
                     Swal.fire({
                         title: 'Success!',
                         text: 'Coffee Updated successfully',
@@ -131,7 +131,7 @@ const UpdateCoffee = () => {
                     </div>
 
 
-                    <input type="submit" value="Add coffee" className="btn btn-block bg-[#D2B48C] text-[#331A15] hover:text-white" />
+                    <input type="submit" value="Update coffee" className="btn btn-block bg-[#D2B48C] text-[#331A15] hover:text-white" />
                 </form>
                 <div className='text-center my-5'>
                     <Link className='btn' to='/'>Go to home</Link>
