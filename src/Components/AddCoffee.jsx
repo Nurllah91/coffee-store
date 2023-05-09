@@ -1,21 +1,45 @@
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 
 const AddCoffee = () => {
 
 
-const handleAddCoffee = event =>{
-    event.preventDefault();
-    const form = event.target;
-    const name = form.name.value;
-    const chef = form.chef.value;
-    const quantity = form.quantity.value;
-    const taste = form.taste.value;
-    const category = form.category.value;
-    const details = form.details.value;
-    const photo = form.photo.value;
-    const addCoffee = {name, chef, quantity, taste, category, details, photo}
-    console.log(addCoffee);
-   
-}
+    const handleAddCoffee = event => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const chef = form.chef.value;
+        const quantity = form.quantity.value;
+        const taste = form.taste.value;
+        const category = form.category.value;
+        const details = form.details.value;
+        const photo = form.photo.value;
+        const newCoffee = { name, chef, quantity, taste, category, details, photo }
+        console.log(newCoffee);
+
+
+        // add to the server
+        fetch('http://localhost:5000/coffee', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newCoffee)
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.acknowledged === true){
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Coffee added successfully',
+                        icon: 'success',
+                        confirmButtonText: 'Done'
+                      })
+                }
+            })
+    }
 
 
     return (
@@ -47,7 +71,7 @@ const handleAddCoffee = event =>{
 
                     </div>
 
-                    
+
                     {/* quantity and taste row */}
                     <div className="md:flex mb-5">
                         <div className="form-control md:w-1/2 ">
@@ -100,13 +124,17 @@ const handleAddCoffee = event =>{
                                 <input type="text" placeholder="Enter Photo URL" name='photo' className="input input-bordered w-full " />
                             </label>
                         </div>
-                       
+
 
                     </div>
 
 
-    <input type="submit" value="Add coffee" className="btn btn-block bg-[#D2B48C] text-[#331A15] hover:text-white"  />
+                    <input type="submit" value="Add coffee" className="btn btn-block bg-[#D2B48C] text-[#331A15] hover:text-white" />
                 </form>
+
+                <div className='text-center my-5'>
+                    <Link className='btn' to='/'>Go to home</Link>
+                </div>
             </div>
         </div>
     );
